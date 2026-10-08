@@ -1,155 +1,4 @@
-// const categories = [
-//   "Food",
-//   "rent",
-//   "freelance",
-//   "Salary",
-
-// ];
-
-// function TransactionFilters({
-//   filters,
-//   onFilterChange,
-//   onClear,
-// }) {
-//   return (
-//     <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
-
-//       <div className="flex flex-col lg:flex-row lg:items-end gap-4">
-
-//         {/* Search */}
-
-//         <div className="flex-1">
-
-//           <label className="block text-sm font-medium text-gray-700 mb-2">
-//             Search
-//           </label>
-
-//           <input
-//             type="text"
-//             name="search"
-//             value={filters.search}
-//             onChange={onFilterChange}
-//             placeholder="Search transactions..."
-//             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-//           />
-
-//         </div>
-
-//         {/* Category */}
-
-//         <div className="flex-1">
-
-//           <label className="block text-sm font-medium text-gray-700 mb-2">
-//             Category
-//           </label>
-
-//           <select
-//             name="category"
-//             value={filters.category}
-//             onChange={onFilterChange}
-//             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-//           >
-
-//             <option value="">
-//               All Categories
-//             </option>
-
-//             {categories.map((category) => (
-//               <option
-//                 key={category}
-//                 value={category}
-//               >
-//                 {category}
-//               </option>
-//             ))}
-
-//           </select>
-
-//         </div>
-
-//         {/* Type */}
-
-//         <div className="flex-1">
-
-//           <label className="block text-sm font-medium text-gray-700 mb-2">
-//             Type
-//           </label>
-
-//           <select
-//             name="type"
-//             value={filters.type}
-//             onChange={onFilterChange}
-//             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-//           >
-
-//             <option value="">
-//               All Types
-//             </option>
-
-//             <option value="income">
-//               Income
-//             </option>
-
-//             <option value="expense">
-//               Expense
-//             </option>
-
-//           </select>
-
-//         </div>
-
-//         {/* Start Date */}
-
-//         <div className="flex-1">
-
-//           <label className="block text-sm font-medium text-gray-700 mb-2">
-//             From
-//           </label>
-
-//           <input
-//             type="date"
-//             name="startDate"
-//             value={filters.startDate}
-//             onChange={onFilterChange}
-//             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-//           />
-
-//         </div>
-
-//         {/* End Date */}
-
-//         <div className="flex-1">
-
-//           <label className="block text-sm font-medium text-gray-700 mb-2">
-//             To
-//           </label>
-
-//           <input
-//             type="date"
-//             name="endDate"
-//             value={filters.endDate}
-//             onChange={onFilterChange}
-//             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-//           />
-
-//         </div>
-
-//         {/* Clear */}
-
-//         <button
-//           onClick={onClear}
-//           className="px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 whitespace-nowrap"
-//         >
-//           Clear
-//         </button>
-
-//       </div>
-
-//     </div>
-//   );
-// }
-
-// export default TransactionFilters;
+import { Search, Filter, RotateCcw, Calendar, Tag, Layers } from "lucide-react";
 
 const categories = [
   "Food",
@@ -164,91 +13,86 @@ function TransactionFilters({
   onClear,
 }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6 shadow-sm">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-6 mb-8 shadow-xs">
 
       {/* Filter Header */}
-
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <h3 className="text-base font-semibold text-gray-900">
-            Filter Transactions
-          </h3>
-
-          <p className="text-sm text-gray-500 mt-1">
-            Search and filter your transactions
-          </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+            <Filter className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-slate-900">
+              Filter Transactions
+            </h3>
+            <p className="text-xs text-slate-500">
+              Narrow down transactions by text, category, type, or date range
+            </p>
+          </div>
         </div>
 
         <button
           type="button"
           onClick={onClear}
           className="
-            inline-flex items-center gap-2
+            inline-flex items-center gap-1.5
             px-3.5 py-2
-            text-sm font-medium
-            text-gray-600
-            border border-gray-200
-            rounded-lg
-            hover:bg-gray-50
-            hover:text-gray-900
+            text-xs font-semibold
+            text-slate-600
+            bg-slate-100/70
+            hover:bg-slate-200/70
+            hover:text-slate-900
+            rounded-xl
             transition
+            cursor-pointer
+            self-start sm:self-auto
           "
         >
-          <span className="text-base">
-            ↻
-          </span>
-
+          <RotateCcw className="w-3.5 h-3.5" />
           Clear Filters
         </button>
       </div>
 
-      {/* Filters */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      {/* Filters Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
         {/* Search */}
-
-        <div className="lg:col-span-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Search
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1">
+            <Search className="w-3.5 h-3.5" /> Search
           </label>
 
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              ⌕
-            </span>
-
             <input
               type="text"
               name="search"
               value={filters.search}
               onChange={onFilterChange}
-              placeholder="Search transactions..."
+              placeholder="Search title or category..."
               className="
                 w-full
-                pl-9 pr-4 py-2.5
-                border border-gray-200
-                rounded-lg
-                bg-gray-50
+                pl-3.5 pr-4 py-2.5
+                border border-slate-200
+                rounded-xl
+                bg-slate-50/60
                 text-sm
-                text-gray-900
+                text-slate-900
                 outline-none
                 transition
-                placeholder:text-gray-400
+                placeholder:text-slate-400
                 focus:bg-white
-                focus:border-blue-500
+                focus:border-blue-600
                 focus:ring-4
-                focus:ring-blue-50
+                focus:ring-blue-100
               "
             />
           </div>
         </div>
 
         {/* Category */}
-
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Category
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1">
+            <Tag className="w-3.5 h-3.5" /> Category
           </label>
 
           <select
@@ -257,23 +101,22 @@ function TransactionFilters({
             onChange={onFilterChange}
             className="
               w-full
-              px-4 py-2.5
-              border border-gray-200
-              rounded-lg
-              bg-gray-50
+              px-3.5 py-2.5
+              border border-slate-200
+              rounded-xl
+              bg-slate-50/60
               text-sm
-              text-gray-700
+              text-slate-900
               outline-none
               transition
               focus:bg-white
-              focus:border-blue-500
+              focus:border-blue-600
               focus:ring-4
-              focus:ring-blue-50
+              focus:ring-blue-100
+              cursor-pointer
             "
           >
-            <option value="">
-              All Categories
-            </option>
+            <option value="">All Categories</option>
 
             {categories.map((category) => (
               <option
@@ -287,10 +130,9 @@ function TransactionFilters({
         </div>
 
         {/* Type */}
-
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Transaction Type
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1">
+            <Layers className="w-3.5 h-3.5" /> Type
           </label>
 
           <select
@@ -299,39 +141,31 @@ function TransactionFilters({
             onChange={onFilterChange}
             className="
               w-full
-              px-4 py-2.5
-              border border-gray-200
-              rounded-lg
-              bg-gray-50
+              px-3.5 py-2.5
+              border border-slate-200
+              rounded-xl
+              bg-slate-50/60
               text-sm
-              text-gray-700
+              text-slate-900
               outline-none
               transition
               focus:bg-white
-              focus:border-blue-500
+              focus:border-blue-600
               focus:ring-4
-              focus:ring-blue-50
+              focus:ring-blue-100
+              cursor-pointer
             "
           >
-            <option value="">
-              All Types
-            </option>
-
-            <option value="income">
-              Income
-            </option>
-
-            <option value="expense">
-              Expense
-            </option>
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
           </select>
         </div>
 
-        {/* From */}
-
+        {/* From Date */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            From
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1">
+            <Calendar className="w-3.5 h-3.5" /> From Date
           </label>
 
           <input
@@ -341,27 +175,26 @@ function TransactionFilters({
             onChange={onFilterChange}
             className="
               w-full
-              px-4 py-2.5
-              border border-gray-200
-              rounded-lg
-              bg-gray-50
+              px-3.5 py-2.5
+              border border-slate-200
+              rounded-xl
+              bg-slate-50/60
               text-sm
-              text-gray-700
+              text-slate-900
               outline-none
               transition
               focus:bg-white
-              focus:border-blue-500
+              focus:border-blue-600
               focus:ring-4
-              focus:ring-blue-50
+              focus:ring-blue-100
             "
           />
         </div>
 
-        {/* To */}
-
+        {/* To Date */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            To
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1">
+            <Calendar className="w-3.5 h-3.5" /> To Date
           </label>
 
           <input
@@ -371,18 +204,18 @@ function TransactionFilters({
             onChange={onFilterChange}
             className="
               w-full
-              px-4 py-2.5
-              border border-gray-200
-              rounded-lg
-              bg-gray-50
+              px-3.5 py-2.5
+              border border-slate-200
+              rounded-xl
+              bg-slate-50/60
               text-sm
-              text-gray-700
+              text-slate-900
               outline-none
               transition
               focus:bg-white
-              focus:border-blue-500
+              focus:border-blue-600
               focus:ring-4
-              focus:ring-blue-50
+              focus:ring-blue-100
             "
           />
         </div>

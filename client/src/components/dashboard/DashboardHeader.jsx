@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Plus, Download, LogOut, Loader2 } from "lucide-react";
 
 function DashboardHeader({
   onAddTransaction,
@@ -13,29 +14,30 @@ function DashboardHeader({
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+    <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
 
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
           {/* BRAND */}
-
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-              ExpenseFlow
-            </h1>
-
-            <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
-              Personal Finance Dashboard
-            </p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-blue-500/20 text-white font-extrabold text-xl">
+              ₹
+            </div>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                Expense<span className="text-blue-600">Flow</span>
+              </h1>
+              <p className="text-xs text-slate-500 font-medium">
+                Personal Finance Dashboard
+              </p>
+            </div>
           </div>
 
           {/* ACTIONS */}
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:flex items-stretch sm:items-center gap-2 sm:gap-3 w-full lg:w-auto">
+          <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
 
             {/* DOWNLOAD CSV */}
-
             <button
               type="button"
               onClick={onDownloadCSV}
@@ -48,36 +50,35 @@ function DashboardHeader({
                 px-4
                 py-2.5
                 border
-                border-green-200
-                rounded-lg
-                text-sm
+                border-emerald-200
+                rounded-xl
+                text-xs sm:text-sm
                 font-semibold
-                text-green-700
-                bg-green-50
-                hover:bg-green-100
+                text-emerald-700
+                bg-emerald-50/80
+                hover:bg-emerald-100/80
                 transition
                 disabled:opacity-50
                 disabled:cursor-not-allowed
                 whitespace-nowrap
+                cursor-pointer
+                shadow-xs
               "
             >
               {downloading ? (
                 <>
-                  <span className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
-                  Downloading...
+                  <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+                  <span>Downloading...</span>
                 </>
               ) : (
                 <>
-                  <span className="text-base">
-                    ↓
-                  </span>
-                  Download CSV
+                  <Download className="w-4 h-4 text-emerald-600" />
+                  <span>Export CSV</span>
                 </>
               )}
             </button>
 
             {/* ADD TRANSACTION */}
-
             <button
               type="button"
               onClick={onAddTransaction}
@@ -91,21 +92,23 @@ function DashboardHeader({
                 text-white
                 px-4
                 py-2.5
-                rounded-lg
+                rounded-xl
+                text-xs sm:text-sm
                 font-semibold
                 transition
+                shadow-md
+                shadow-blue-500/20
+                hover:shadow-lg
+                hover:shadow-blue-500/30
                 whitespace-nowrap
+                cursor-pointer
               "
             >
-              <span className="text-lg leading-none">
-                +
-              </span>
-
-              Add Transaction
+              <Plus className="w-4 h-4" />
+              <span>Add Transaction</span>
             </button>
 
             {/* LOGOUT */}
-
             <button
               type="button"
               onClick={handleLogout}
@@ -113,20 +116,24 @@ function DashboardHeader({
                 inline-flex
                 items-center
                 justify-center
-                px-4
+                gap-1.5
+                px-3.5
                 py-2.5
                 border
-                border-gray-300
-                rounded-lg
-                text-sm
+                border-slate-200
+                rounded-xl
+                text-xs sm:text-sm
                 font-medium
-                text-gray-700
-                hover:bg-gray-50
+                text-slate-600
+                hover:bg-slate-100/80
+                hover:text-slate-900
                 transition
                 whitespace-nowrap
+                cursor-pointer
               "
             >
-              Logout
+              <LogOut className="w-4 h-4 text-slate-500" />
+              <span className="hidden sm:inline">Logout</span>
             </button>
 
           </div>

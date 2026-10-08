@@ -3,6 +3,8 @@ import { apiRequest } from "../config/api";
 
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import SummaryCards from "../components/dashboard/SummaryCards";
+import CategoryChart from "../components/dashboard/CategoryChart";
+import IncomeExpenseChart from "../components/dashboard/IncomeExpenseChart";
 import TransactionFilters from "../components/dashboard/TransactionFilters";
 import TransactionTable from "../components/dashboard/TransactionTable";
 import Pagination from "../components/dashboard/Pagination";
@@ -65,9 +67,23 @@ const [downloading, setDownloading] = useState(false);
   const [formError, setFormError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  // GET TRANSACTIONS
-  
+  const [allTransactions, setAllTransactions] = useState([]);
 
+  // GET ALL TRANSACTIONS FOR OVERALL SUMMARY
+  const fetchSummaryTransactions = async () => {
+    try {
+      const data = await apiRequest("/transactions?limit=100000&page=1");
+      setAllTransactions(data.transactions || []);
+    } catch (err) {
+      console.error("Summary error:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSummaryTransactions();
+  }, []);
+
+  // GET TRANSACTIONS FOR TABLE
   const fetchTransactions = async () => {
     try {
       setLoading(true);
@@ -119,9 +135,12 @@ const [downloading, setDownloading] = useState(false);
     }
   };
 
-  // FETCH WHEN FILTER/PAGE CHANGES
-  
+  // REFRESH BOTH SUMMARY & TABLE
+  const handleRefresh = async () => {
+    await Promise.all([fetchTransactions(), fetchSummaryTransactions()]);
+  };
 
+  // FETCH WHEN FILTER/PAGE CHANGES
   useEffect(() => {
     fetchTransactions();
   }, [
@@ -410,6 +429,7 @@ const handleDownloadCSV = async () => {
         ]);
       }
 
+      fetchSummaryTransactions();
       closeModal();
     } catch (err) {
       console.error(err);
@@ -443,6 +463,8 @@ const handleDownloadCSV = async () => {
           (transaction) => transaction._id !== id
         )
       );
+
+      fetchSummaryTransactions();
 
       // If last transaction on current page was deleted
       if (transactions.length === 1 && page > 1) {
@@ -480,32 +502,32 @@ const handleDownloadCSV = async () => {
   }, [transactions, filters.search]);
 
   
-  // SUMMARY
+  // SUMMARY CALCULATED FROM OVERALL TRANSACTIONS
   
 
   const income = useMemo(() => {
-    return filteredTransactions
+    return allTransactions
       .filter(
         (transaction) => transaction.type === "income"
       )
       .reduce(
         (total, transaction) =>
-          total + Number(transaction.amount),
+          total + Number(transaction.amount || 0),
         0
       );
-  }, [filteredTransactions]);
+  }, [allTransactions]);
 
   const expense = useMemo(() => {
-    return filteredTransactions
+    return allTransactions
       .filter(
         (transaction) => transaction.type === "expense"
       )
       .reduce(
         (total, transaction) =>
-          total + Number(transaction.amount),
+          total + Number(transaction.amount || 0),
         0
       );
-  }, [filteredTransactions]);
+  }, [allTransactions]);
 
   const balance = income - expense;
 
@@ -514,33 +536,36 @@ const handleDownloadCSV = async () => {
  
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50/50 font-sans selection:bg-blue-500 selection:text-white">
       {/* HEADER */}
 
       <DashboardHeader
         onAddTransaction={openAddModal}
-         onDownloadCSV={handleDownloadCSV}
-           downloading={downloading}
+        onDownloadCSV={handleDownloadCSV}
+        downloading={downloading}
       />
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* PAGE TITLE */}
 
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">
-            Dashboard
-          </h2>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Overview
+            </h2>
 
-          <p className="text-gray-500 mt-1">
-            Track your income, expenses and balance.
-          </p>
+            <p className="text-sm text-slate-500 font-medium mt-0.5">
+              Summary of your financial activity and recent transactions.
+            </p>
+          </div>
         </div>
 
         {/* ERROR */}
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600">
-            {error}
+          <div className="mb-6 p-4 bg-rose-50 border border-rose-200 rounded-2xl text-rose-700 text-sm font-medium flex items-center gap-3">
+            <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping" />
+            <span>{error}</span>
           </div>
         )}
 
@@ -551,6 +576,13 @@ const handleDownloadCSV = async () => {
           expense={expense}
           balance={balance}
         />
+
+        {/* CHARTS */}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <CategoryChart transactions={allTransactions} />
+          <IncomeExpenseChart transactions={allTransactions} />
+        </div>
 
         {/* FILTERS */}
 
@@ -571,7 +603,7 @@ const handleDownloadCSV = async () => {
           onEdit={openEditModal}
           onDelete={handleDelete}
           onAdd={openAddModal}
-          onRefresh={fetchTransactions}
+          onRefresh={handleRefresh}
         />
 
         {/* PAGINATION */}

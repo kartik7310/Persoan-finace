@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { User, Mail, Lock, AlertCircle, ArrowLeft, Loader2 } from "lucide-react";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -84,170 +85,177 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-slate-50/50 flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden font-sans">
+      {/* Background Accent Gradients */}
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md relative z-10">
 
         {/* Logo */}
         <div className="text-center mb-8">
-
           <Link
             to="/"
-            className="inline-flex items-center gap-2"
+            className="inline-flex items-center gap-3 group"
           >
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-              <span className="text-white text-xl font-bold">
-                ₹
-              </span>
+            <div className="w-11 h-11 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-blue-500/20 text-white font-extrabold text-2xl group-hover:scale-105 transition">
+              ₹
             </div>
 
-            <span className="text-2xl font-bold text-gray-900">
-              ExpenseFlow
+            <span className="text-2xl font-bold tracking-tight text-slate-900">
+              Expense<span className="text-blue-600">Flow</span>
             </span>
           </Link>
-
         </div>
 
         {/* Card */}
-        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+        <div className="bg-white border border-slate-200/80 rounded-2xl shadow-xl shadow-slate-200/50 p-8">
 
           {/* Heading */}
-          <div className="mb-7">
-
-            <h1 className="text-3xl font-bold text-gray-900">
+          <div className="mb-6">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Create account
             </h1>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-slate-500 text-sm mt-1">
               Start managing your expenses today.
             </p>
-
           </div>
 
           {/* Error */}
           {error && (
-            <div className="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm">
-              {error}
+            <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-start gap-3 animate-shake">
+              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+              <span>{error}</span>
             </div>
           )}
 
           {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="space-y-5"
+            className="space-y-4"
           >
 
             {/* Name */}
             <div>
-
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2"
               >
                 Full Name
               </label>
 
-              <input
-                id="name"
-                type="text"
-                name="name"s
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
-
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <User className="w-4 h-4" />
+                </div>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter your full name"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm outline-none transition focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+                />
+              </div>
             </div>
 
             {/* Email */}
             <div>
-
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2"
               >
-                Email
+                Email Address
               </label>
 
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
-
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="you@example.com"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm outline-none transition focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+                />
+              </div>
             </div>
 
             {/* Password */}
             <div>
-
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2"
               >
                 Password
               </label>
 
-              <input
-                id="password"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Minimum 6 characters"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
-
-              <p className="text-xs text-gray-500 mt-2">
-                Password must contain at least 6 characters.
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <Lock className="w-4 h-4" />
+                </div>
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Minimum 6 characters"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm outline-none transition focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+                />
+              </div>
+              <p className="text-xs text-slate-500 mt-1.5 font-medium">
+                Must be at least 6 characters long.
               </p>
-
             </div>
 
             {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition"
+              className="w-full mt-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3.5 rounded-xl transition shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
             >
-              {loading
-                ? "Creating account..."
-                : "Create Account"}
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Creating account...</span>
+                </>
+              ) : (
+                "Create Account"
+              )}
             </button>
 
           </form>
 
-          {/* Login */}
-          <div className="text-center mt-6 pt-6 border-t border-gray-100">
-
-            <p className="text-sm text-gray-500">
-              Already have an account?
-
+          {/* Login Link */}
+          <div className="text-center mt-6 pt-6 border-t border-slate-100">
+            <p className="text-sm text-slate-500">
+              Already have an account?{" "}
               <Link
                 to="/login"
-                className="ml-1 text-blue-600 font-semibold hover:text-blue-700"
+                className="text-blue-600 font-semibold hover:text-blue-700 hover:underline"
               >
-                Login
+                Sign In
               </Link>
             </p>
-
           </div>
 
         </div>
 
         {/* Back */}
         <div className="text-center mt-6">
-
           <Link
             to="/"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 font-medium transition"
           >
-            ← Back to home
+            <ArrowLeft className="w-4 h-4" />
+            Back to home
           </Link>
-
         </div>
 
       </div>

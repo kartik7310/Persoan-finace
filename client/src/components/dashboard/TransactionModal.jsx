@@ -1,3 +1,5 @@
+import { X, Loader2, AlertCircle, ArrowUpRight, ArrowDownRight } from "lucide-react";
+
 const categories = [
   "Food",
   "rent",
@@ -21,121 +23,94 @@ function TransactionModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 animate-fade-in"
       onMouseDown={(e) => {
-        if (e.target === e.currentTarget) {
+        if (e.target === e.currentTarget && !saving) {
           onClose();
         }
       }}
     >
-
-      <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl">
+      <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden transform transition-all">
 
         {/* Header */}
-
-        <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
-
+        <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
           <div>
-
-            <h2 className="text-xl font-bold text-gray-900">
-              {editingTransaction
-                ? "Edit Transaction"
-                : "Add Transaction"}
+            <h2 className="text-xl font-bold text-slate-900">
+              {editingTransaction ? "Edit Transaction" : "Add Transaction"}
             </h2>
-
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-xs text-slate-500 font-medium mt-0.5">
               {editingTransaction
-                ? "Update transaction details"
-                : "Enter your transaction details"}
+                ? "Update your transaction details below"
+                : "Enter the details for your new transaction"}
             </p>
-
           </div>
 
           <button
             onClick={onClose}
             disabled={saving}
-            className="w-9 h-9 rounded-lg hover:bg-gray-100 text-gray-500 text-xl"
+            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition disabled:opacity-50 cursor-pointer"
           >
-            ×
+            <X className="w-4 h-4" />
           </button>
-
         </div>
 
         {/* Form */}
-
         <form
           onSubmit={onSubmit}
-          className="p-6 space-y-5"
+          className="p-6 space-y-4"
         >
 
-          {/* Error */}
-
+          {/* Form Error Alert */}
           {formError && (
-
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
-              {formError}
+            <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{formError}</span>
             </div>
-
           )}
 
-          {/* Title */}
-
+          {/* Title Input */}
           <div>
-
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Title
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+              Transaction Title
             </label>
-
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={onChange}
-              placeholder="e.g. Grocery shopping"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              placeholder="e.g. Grocery Shopping"
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm outline-none transition focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
             />
-
           </div>
 
-          {/* Amount */}
-
+          {/* Amount Input */}
           <div>
-
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Amount
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+              Amount (₹)
             </label>
-
             <input
               type="number"
               name="amount"
               value={formData.amount}
               onChange={onChange}
-              placeholder="Enter amount"
+              placeholder="0.00"
               min="1"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm outline-none transition focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 font-semibold"
             />
-
           </div>
 
-          {/* Category */}
-
+          {/* Category Selector */}
           <div>
-
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
               Category
             </label>
-
             <select
               name="category"
               value={formData.category}
               onChange={onChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm outline-none transition focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 cursor-pointer"
             >
-
-              <option value="">
-                Select category
-              </option>
-
+              <option value="">Select category</option>
               {categories.map((category) => (
                 <option
                   key={category}
@@ -144,98 +119,77 @@ function TransactionModal({
                   {category}
                 </option>
               ))}
-
             </select>
-
           </div>
 
-          {/* Type */}
-
+          {/* Type Segmented Radio Toggle */}
           <div>
-
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
               Transaction Type
             </label>
 
             <div className="grid grid-cols-2 gap-3">
-
               <label
-                className={`flex items-center justify-center gap-2 p-3 border rounded-lg cursor-pointer transition ${
+                className={`flex items-center justify-center gap-2 p-3 border rounded-xl cursor-pointer transition font-semibold text-xs ${
                   formData.type === "expense"
-                    ? "border-red-500 bg-red-50 text-red-700"
-                    : "border-gray-300"
+                    ? "border-rose-300 bg-rose-50 text-rose-700 shadow-xs"
+                    : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100"
                 }`}
               >
-
                 <input
                   type="radio"
                   name="type"
                   value="expense"
-                  checked={
-                    formData.type === "expense"
-                  }
+                  checked={formData.type === "expense"}
                   onChange={onChange}
-                  className="accent-red-600"
+                  className="sr-only"
                 />
-
+                <ArrowDownRight className="w-4 h-4 text-rose-600" />
                 Expense
-
               </label>
 
               <label
-                className={`flex items-center justify-center gap-2 p-3 border rounded-lg cursor-pointer transition ${
+                className={`flex items-center justify-center gap-2 p-3 border rounded-xl cursor-pointer transition font-semibold text-xs ${
                   formData.type === "income"
-                    ? "border-green-500 bg-green-50 text-green-700"
-                    : "border-gray-300"
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-700 shadow-xs"
+                    : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100"
                 }`}
               >
-
                 <input
                   type="radio"
                   name="type"
                   value="income"
-                  checked={
-                    formData.type === "income"
-                  }
+                  checked={formData.type === "income"}
                   onChange={onChange}
-                  className="accent-green-600"
+                  className="sr-only"
                 />
-
+                <ArrowUpRight className="w-4 h-4 text-emerald-600" />
                 Income
-
               </label>
-
             </div>
-
           </div>
 
-          {/* Date */}
-
+          {/* Date Input */}
           <div>
-
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
               Date
             </label>
-
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={onChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm outline-none transition focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
             />
-
           </div>
 
-          {/* Buttons */}
-
-          <div className="flex gap-3 pt-2">
-
+          {/* Modal Action Buttons */}
+          <div className="flex items-center gap-3 pt-3">
             <button
               type="button"
               onClick={onClose}
               disabled={saving}
-              className="flex-1 py-3 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+              className="flex-1 py-3 border border-slate-200 rounded-xl font-semibold text-xs sm:text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition cursor-pointer"
             >
               Cancel
             </button>
@@ -243,21 +197,23 @@ function TransactionModal({
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold disabled:bg-blue-400"
+              className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-xl font-semibold text-xs sm:text-sm transition shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
             >
-              {saving
-                ? "Saving..."
-                : editingTransaction
-                ? "Update Transaction"
-                : "Add Transaction"}
+              {saving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Saving...</span>
+                </>
+              ) : editingTransaction ? (
+                "Update Transaction"
+              ) : (
+                "Add Transaction"
+              )}
             </button>
-
           </div>
 
         </form>
-
       </div>
-
     </div>
   );
 }

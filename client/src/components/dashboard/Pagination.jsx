@@ -1,3 +1,5 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 function Pagination({
   page,
   totalPages,
@@ -9,35 +11,71 @@ function Pagination({
   }
 
   return (
-    <div className="mt-6 flex items-center justify-between">
+    <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
 
-      <p className="text-sm text-gray-500">
-        Page{" "}
-        <span className="font-semibold text-gray-700">
+      <p className="text-xs sm:text-sm text-slate-500 font-medium">
+        Showing Page{" "}
+        <span className="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded-md">
           {page}
         </span>{" "}
         of{" "}
-        <span className="font-semibold text-gray-700">
+        <span className="font-bold text-slate-900">
           {totalPages}
         </span>
       </p>
 
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
 
         <button
           disabled={page === 1}
           onClick={onPrevious}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-white"
+          className="
+            inline-flex items-center gap-1
+            px-3.5 py-2
+            border border-slate-200
+            rounded-xl
+            text-xs font-semibold
+            text-slate-700
+            bg-white
+            hover:bg-slate-50
+            hover:border-slate-300
+            disabled:opacity-40
+            disabled:cursor-not-allowed
+            disabled:hover:bg-white
+            disabled:hover:border-slate-200
+            transition
+            cursor-pointer
+            shadow-2xs
+          "
         >
-          ← Previous
+          <ChevronLeft className="w-4 h-4" />
+          Previous
         </button>
 
         <button
           disabled={page === totalPages}
           onClick={onNext}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-white"
+          className="
+            inline-flex items-center gap-1
+            px-3.5 py-2
+            border border-slate-200
+            rounded-xl
+            text-xs font-semibold
+            text-slate-700
+            bg-white
+            hover:bg-slate-50
+            hover:border-slate-300
+            disabled:opacity-40
+            disabled:cursor-not-allowed
+            disabled:hover:bg-white
+            disabled:hover:border-slate-200
+            transition
+            cursor-pointer
+            shadow-2xs
+          "
         >
-          Next →
+          Next
+          <ChevronRight className="w-4 h-4" />
         </button>
 
       </div>

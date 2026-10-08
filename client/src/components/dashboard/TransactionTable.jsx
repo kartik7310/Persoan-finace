@@ -1,3 +1,5 @@
+import { RefreshCw, Plus, Pencil, Trash2, Receipt, ArrowUpRight, ArrowDownRight, Loader2 } from "lucide-react";
+
 function TransactionTable({
   transactions,
   loading,
@@ -25,224 +27,175 @@ function TransactionTable({
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div className="bg-white border border-slate-200/80 rounded-2xl shadow-xs overflow-hidden">
 
-      {/* Header */}
-
-      <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
-
+      {/* Table Top Bar */}
+      <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
-            Transactions
+          <h3 className="text-base font-bold text-slate-900">
+            Recent Transactions
           </h3>
-
-          <p className="text-sm text-gray-500 mt-1">
-            {totalTransactions} total transactions
+          <p className="text-xs text-slate-500 font-medium mt-0.5">
+            Showing {transactions.length} of {totalTransactions} total entries
           </p>
         </div>
 
         <button
           onClick={onRefresh}
-          className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100/70 px-3 py-1.5 rounded-lg transition cursor-pointer"
         >
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
           Refresh
         </button>
-
       </div>
 
-      {/* Loading */}
-
+      {/* Loading State */}
       {loading && (
-
         <div className="p-16 text-center">
-
-          <div className="inline-block w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin" />
-
-          <p className="text-gray-500 mt-4">
+          <Loader2 className="w-8 h-8 text-blue-600 animate-spin mx-auto" />
+          <p className="text-slate-500 text-sm font-medium mt-3">
             Loading transactions...
           </p>
-
         </div>
-
       )}
 
-      {/* Empty */}
-
+      {/* Empty State */}
       {!loading && transactions.length === 0 && (
-
-        <div className="p-16 text-center">
-
-          <div className="text-5xl mb-4">
-            ₹
+        <div className="p-16 text-center max-w-sm mx-auto">
+          <div className="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 mx-auto mb-4">
+            <Receipt className="w-7 h-7" />
           </div>
 
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-base font-bold text-slate-900">
             No transactions found
           </h3>
 
-          <p className="text-gray-500 mt-2">
-            Add a transaction or change your filters.
+          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+            There are no transactions matching your filter criteria, or you haven't added any yet.
           </p>
 
           <button
             onClick={onAdd}
-            className="mt-5 bg-blue-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-blue-700"
+            className="mt-5 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition cursor-pointer shadow-sm shadow-blue-500/20"
           >
-            Add Transaction
+            <Plus className="w-4 h-4" />
+            Add First Transaction
           </button>
-
         </div>
-
       )}
 
-      {/* Table */}
-
+      {/* Table Data */}
       {!loading && transactions.length > 0 && (
-
         <div className="overflow-x-auto">
-
-          <table className="w-full">
-
-            <thead className="bg-gray-50 border-b border-gray-200">
-
-              <tr>
-
-                <th className="text-left px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Transaction
-                </th>
-
-                <th className="text-left px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Category
-                </th>
-
-                <th className="text-left px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Type
-                </th>
-
-                <th className="text-left px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Date
-                </th>
-
-                <th className="text-right px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Amount
-                </th>
-
-                <th className="text-right px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Actions
-                </th>
-
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-[11px] uppercase tracking-wider font-bold">
+                <th className="px-6 py-3.5">Title</th>
+                <th className="px-6 py-3.5">Category</th>
+                <th className="px-6 py-3.5">Type</th>
+                <th className="px-6 py-3.5">Date</th>
+                <th className="px-6 py-3.5 text-right">Amount</th>
+                <th className="px-6 py-3.5 text-right">Actions</th>
               </tr>
-
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100 text-sm font-medium">
+              {transactions.map((transaction) => {
+                const isIncome = transaction.type === "income";
 
-              {transactions.map((transaction) => (
+                return (
+                  <tr
+                    key={transaction._id}
+                    className="hover:bg-slate-50/60 transition-colors group"
+                  >
+                    {/* Title */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                            isIncome
+                              ? "bg-emerald-100/80 text-emerald-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {isIncome ? (
+                            <ArrowUpRight className="w-4 h-4" />
+                          ) : (
+                            <ArrowDownRight className="w-4 h-4" />
+                          )}
+                        </div>
+                        <span className="font-semibold text-slate-900">
+                          {transaction.title}
+                        </span>
+                      </div>
+                    </td>
 
-                <tr
-                  key={transaction._id}
-                  className="hover:bg-gray-50 transition"
-                >
+                    {/* Category */}
+                    <td className="px-6 py-4">
+                      <span className="inline-flex items-center px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-semibold border border-slate-200/60 capitalize">
+                        {transaction.category}
+                      </span>
+                    </td>
 
-                  {/* Title */}
+                    {/* Type */}
+                    <td className="px-6 py-4">
+                      <span
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold ${
+                          isIncome
+                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200/60"
+                            : "bg-rose-50 text-rose-700 border border-rose-200/60"
+                        }`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            isIncome ? "bg-emerald-500" : "bg-rose-500"
+                          }`}
+                        />
+                        {isIncome ? "Income" : "Expense"}
+                      </span>
+                    </td>
 
-                  <td className="px-6 py-4">
+                    {/* Date */}
+                    <td className="px-6 py-4 text-xs text-slate-500 font-medium">
+                      {formatDate(transaction.date)}
+                    </td>
 
-                    <p className="font-semibold text-gray-900">
-                      {transaction.title}
-                    </p>
-
-                  </td>
-
-                  {/* Category */}
-
-                  <td className="px-6 py-4">
-
-                    <span className="px-2.5 py-1 bg-gray-100 rounded-md text-sm text-gray-700">
-                      {transaction.category}
-                    </span>
-
-                  </td>
-
-                  {/* Type */}
-
-                  <td className="px-6 py-4">
-
-                    <span
-                      className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold ${
-                        transaction.type === "income"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                    {/* Amount */}
+                    <td
+                      className={`px-6 py-4 text-right font-extrabold text-sm ${
+                        isIncome ? "text-emerald-600" : "text-slate-900"
                       }`}
                     >
-                      {transaction.type === "income"
-                        ? "Income"
-                        : "Expense"}
-                    </span>
+                      {isIncome ? "+" : "-"} ₹{formatMoney(transaction.amount)}
+                    </td>
 
-                  </td>
+                    {/* Actions */}
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => onEdit(transaction)}
+                          className="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition cursor-pointer"
+                          title="Edit transaction"
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </button>
 
-                  {/* Date */}
-
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {formatDate(transaction.date)}
-                  </td>
-
-                  {/* Amount */}
-
-                  <td
-                    className={`px-6 py-4 text-right font-bold ${
-                      transaction.type === "income"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {transaction.type === "income"
-                      ? "+"
-                      : "-"}
-                    ₹{formatMoney(transaction.amount)}
-                  </td>
-
-                  {/* Actions */}
-
-                  <td className="px-6 py-4">
-
-                    <div className="flex justify-end gap-2">
-
-                      <button
-                        onClick={() =>
-                          onEdit(transaction)
-                        }
-                        className="px-3 py-1.5 text-sm font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          onDelete(transaction._id)
-                        }
-                        className="px-3 py-1.5 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
-                      >
-                        Delete
-                      </button>
-
-                    </div>
-
-                  </td>
-
-                </tr>
-
-              ))}
-
+                        <button
+                          onClick={() => onDelete(transaction._id)}
+                          className="p-1.5 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+                          title="Delete transaction"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
-
           </table>
-
         </div>
-
       )}
-
     </div>
   );
 }
