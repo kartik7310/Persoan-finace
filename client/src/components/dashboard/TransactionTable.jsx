@@ -163,7 +163,7 @@ function TransactionTable({
                     {/* Amount */}
                     <td
                       className={`px-6 py-4 text-right font-extrabold text-sm ${
-                        isIncome ? "text-emerald-600" : "text-slate-900"
+                        isIncome ? "text-emerald-600" : "text-red-500"
                       }`}
                     >
                       {isIncome ? "+" : "-"} ₹{formatMoney(transaction.amount)}

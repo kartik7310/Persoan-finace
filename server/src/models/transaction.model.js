@@ -28,7 +28,7 @@ const transactionSchema = new mongoose.Schema(
 
     category: {
       type: String,
-       enum: ["food","rent","freelance","sallary"],
+       enum: ["food","rent","freelance","salary"],
     },
 
     date: {
