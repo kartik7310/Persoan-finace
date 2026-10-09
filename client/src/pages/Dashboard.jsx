@@ -24,7 +24,7 @@ function Dashboard() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-const [downloading, setDownloading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
 
 
   // FILTERS
@@ -72,7 +72,7 @@ const [downloading, setDownloading] = useState(false);
   // GET ALL TRANSACTIONS FOR OVERALL SUMMARY
   const fetchSummaryTransactions = async () => {
     try {
-      const data = await apiRequest("/transactions?limit=100000&page=1");
+      const data = await apiRequest("/transactions");
       setAllTransactions(data.transactions || []);
     } catch (err) {
       console.error("Summary error:", err);

@@ -7,8 +7,6 @@ import {
   PieChart,
   Wallet,
   BarChart3,
-  ShieldCheck,
-  Zap,
 } from "lucide-react";
 
 function App() {
@@ -54,7 +52,7 @@ function App() {
                 Simple & Powerful Money Management
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
                 Take full control of <br className="hidden sm:block" />
                 <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 bg-clip-text text-transparent">
                   your daily expenses.

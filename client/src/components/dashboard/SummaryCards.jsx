@@ -20,7 +20,7 @@ function SummaryCards({
               Total Income
             </p>
 
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2 tracking-tight">
+            <h3 className="text-2xl sm:text-2xl font-extrabold text-emerald-500 mt-2 tracking-tight">
               ₹{formatMoney(income)}
             </h3>
 
@@ -44,7 +44,7 @@ function SummaryCards({
               Total Expenses
             </p>
 
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2 tracking-tight">
+            <h3 className="text-2xl sm:text-2xl font-extrabold text-rose-600 mt-2 tracking-tight">
               ₹{formatMoney(expense)}
             </h3>
 
@@ -69,9 +69,9 @@ function SummaryCards({
             </p>
 
             <h3
-              className={`text-2xl sm:text-3xl font-extrabold mt-2 tracking-tight ${
+              className={`text-2xl sm:text-2xl font-extrabold mt-2 tracking-tight ${
                 balance >= 0
-                  ? "text-slate-900"
+                  ? "text-emerald-600"
                   : "text-rose-600"
               }`}
             >
@@ -81,7 +81,7 @@ function SummaryCards({
             <div
               className={`flex items-center gap-1 mt-2 text-xs font-semibold ${
                 balance >= 0
-                  ? "text-blue-600"
+                  ? "text-emerald-600"
                   : "text-rose-600"
               }`}
             >
