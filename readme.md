@@ -1,4 +1,4 @@
-# 💰 Personal Finance Tracker
+# 💰 Personal Finance Tracker 
 
 A full-stack MERN (MongoDB, Express.js, React 19, Node.js) web application for personal expense tracking and financial management. Easily monitor your incomes, track expenses, calculate net balances, and filter transaction histories through an intuitive, modern dashboard.
 
