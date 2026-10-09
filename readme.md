@@ -155,7 +155,7 @@ VITE_API_BASE_URL=http://localhost:3000/api
 ### 📖 Postman API Documentation
 
 For interactive API testing and request schemas, view the published Postman Collection:
-👉 [Postman API Documentation](https://kartiklahiyans-team.postman.co/documentation/38250883-5390cafb-1d12-45f3-9350-34e285f66cc2/publish?workspaceId=a419fd72-11df-46ba-81f5-8043bed00374&authFlowId=feb021b6-9cf7-407b-8b81-58ff32b0592c)
+👉 [Postman API Documentation](https://documenter.getpostman.com/view/38250883/2sBYHQ1N1E)
 
 ---
 
